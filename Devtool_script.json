@@ -1,0 +1,498 @@
+PUT /new_index2
+{
+  "settings": {
+    "number_of_shards": 2, 
+    "number_of_replicas": 2,
+    "analysis": {
+      "analyzer": {
+        "my_analyzer": {
+          "filter": [
+            "lowercase"
+            ],
+            "analyzer": "custom",
+            "tokenizer":"standard"
+          
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "name":{
+        "type" : "text",
+        "analyzer": "my_analyzer"
+      },
+      "age":{
+        "type" : "integer"
+      },
+      "salary":{
+        "type" : "float"
+      },
+      "Company":{
+        "type" : "text",
+        "analyzer": "my_analyzer"
+      }
+    }
+  }
+}
+
+GET /new_index2
+POST /new_index2
+
+
+PUT /new_index2/_doc/1
+{
+  "name" :"Pratyush-shishodiya",
+  "age" : 22,
+  "salary" : 50000,
+  "Company" : "Consultadd"
+}
+PUT /new_index2/_doc/2
+{
+  "name" :"Priyanshu-shishodiya",
+  "age" : 16,
+  "salary" : 500,
+  "Company" : "k_V"
+}
+
+
+
+
+PUT /new_index3
+{
+  "settings": {
+    "number_of_shards": 2, 
+    "number_of_replicas": 2,
+    "analysis": {
+      "analyzer": {
+        "my_analyzer":{
+          "filter":[
+            "lowercase"
+            ],
+          "analyzer":"custom",
+          "tokenizer":"standard"
+          
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "Name":{
+        "type": "text",
+        "analyzer": "my_analyzer"
+      },
+      "Age":{
+        "type": "text",
+        "analyzer": "my_analyzer"
+      },
+      "Salary":{
+        "type": "text",
+        "analyzer": "my_analyzer"
+      }
+    }
+  }
+}
+
+
+PUT new_index3/_doc/1
+{
+  "Name":"XYZ",
+  "Age":"22",
+  "Salary":"50000"
+}
+
+
+PUT new_index3/_doc/2
+{
+  "Name":"XYZ",
+  "Age":"22",
+  "Salary":"50000",
+  "Company": "Consultadd"
+}
+
+GET new_index3
+
+
+
+PUT new_index3/_mapping/
+{
+  "dynamic": false
+}
+
+
+PUT new_index3/_doc/3
+{
+  "Name":"ABC",
+  "Age":"25",
+  "Salary":"5000",
+  "Company": "Consultadd INC"
+}
+
+GET new_index3
+
+POST _analyze
+{
+  "analyzer": "whitespace",
+  "text": "The quick fox brown is."
+}
+
+PUT /new_index4
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 1,
+    "analysis": {
+      "analyzer": {
+        "anz":{
+          "filter":[
+            "lowercase"],
+            "type":"custom",
+            "tokenizer":"standard"
+        }
+      }
+    }
+  }, 
+  "mappings": {
+    "properties": {
+      "Name":{
+        "type": "text",
+        "analyzer": "anz"
+      },
+      "Add":{
+        "type": "text",
+        "analyzer": "anz"
+      }
+    }
+  }
+}
+
+GET new_index4
+
+
+PUT new_index4/_mapping
+{
+  "dynamic":"strict"
+}
+
+
+
+POST _analyze
+{
+  "analyzer": "snowball", 
+  "text": "Hey i am Pratyush shishodiya."
+}
+
+
+PUT /new_index4/_doc/2
+{
+  "Name" :"Priyanshu-shishodiya",
+  "Add" :"16"
+}
+
+
+GET /new_index4/_doc/2/_Source
+
+
+
+HEAD /new_index4/_doc/5
+
+
+PUT /new_index4/_update
+{
+  "doc":{
+    "Name":"XYZ"
+    
+  }
+}
+
+
+
+GET /new_index4
+
+
+
+PUT /new_index5/_doc/1
+{
+  "Name" :"Priyanshu-shishodiya",
+  "Add" :"16",
+  "loc":{
+    "lat":1234.234,
+    "lon":321.43
+  }
+  
+}
+
+GET /new_index5
+
+
+
+PUT /course
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 2,
+    "analysis": {
+      "analyzer": {
+        "anz":{
+          "filter":[
+            "lowercase"],
+          "tokenizer":"standard"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "name":{
+        "type": "text",
+        "analyzer": "anz"
+      },
+      "room":{
+        "type": "text",
+        "analyzer": "anz"
+      },
+      "professor":{
+        "properties": {
+          "name":{
+          "type": "text",
+          "analyzer": "anz"
+          },
+          "department":{
+          "type": "text",
+          "analyzer": "anz"
+          },
+          "faculty_type":{
+          "type": "text",
+          "analyzer": "anz"
+          },
+          "email":{
+          "type": "text",
+          "analyzer": "anz"
+          }
+        }
+      },
+      "student_enrolled":{
+        "type": "text",
+        "analyzer": "anz"
+      },
+      "course_publish_date":{
+        "type": "text",
+        "analyzer": "anz"
+      },
+      "course_description":{
+        "type": "text",
+        "analyzer": "anz"
+      }
+    }
+  }
+}
+
+PUT /courses/_doc/1
+{
+    "name": "Accounting 101",
+    "room": "E3",
+    "professor": {
+        "name": "Thomas Baszo",
+        "department": "finance",
+        "facutly_type": "part-time",
+        "email": "baszot@onuni.com"
+        },
+    "students_enrolled": 27,
+    "course_publish_date": "2015-01-19",
+    "course_description": "Act 101 is a course from the business school on the introduction to accounting that teaches students how to read and compose basic financial statements"
+}
+
+
+PUT /courses/_doc/2
+{
+    "name": "Marketing 101",
+    "room": "E4",
+    "professor": {
+        "name": "William Smith",
+        "department": "finance",
+        "facutly_type": "part-time",
+        "email": "wills@onuni.com"
+        },
+    "students_enrolled": 18,
+    "course_publish_date": "2015-06-21",
+    "course_description": "Mkt 101 is a course from the business school on the introduction to marketing that teaches students the fundamentals of market analysis, customer retention and online advertisements"
+}
+
+
+PUT /courses/_doc/3
+{
+    "name": "Anthropology 230",
+    "room": "G11",
+    "professor": {
+        "name": "Devin Cranford",
+        "department": "history",
+        "facutly_type": "full-time",
+        "email": "devinc@onuni.com"
+        },
+    "students_enrolled": 22,
+    "course_publish_date": "2013-08-27",
+    "course_description": "Ant 230 is an intermediate course on human societies and cultures and their development. A focus on the Mayans civilization is rooted in this course"
+}
+
+PUT /courses/_doc/4
+{
+    "name": "Computer Science 101",
+    "room": "C12",
+    "professor": {
+        "name": "Gregg Payne",
+        "department": "engineering",
+        "facutly_type": "full-time",
+        "email": "payneg@onuni.com"
+        },
+    "students_enrolled": 33,
+    "course_publish_date": "2013-08-27",
+    "course_description": "CS 101 is a first year computer science introduction teaching fundamental data structures and alogirthms using python. "
+}
+
+PUT /courses/_doc/5
+{
+    "name": "Theatre 410",
+    "room": "T18",
+    "professor": {
+        "name": "Sebastian Hern",
+        "department": "art",
+        "facutly_type": "part-time",
+        "email": ""
+        },
+    "students_enrolled": 47,
+    "course_publish_date": "2013-01-27",
+    "course_description": "Tht 410 is an advanced elective course disecting the various plays written by shakespere during the 16th century"
+}
+
+PUT /courses/_doc/6
+{
+    "name": "Cost Accounting 400",
+    "room": "E7",
+    "professor": {
+        "name": "Bill Cage",
+        "department": "accounting",
+        "facutly_type": "full-time",
+        "email": "cageb@onuni.com"
+        },
+    "students_enrolled": 31,
+    "course_publish_date": "2014-12-31",
+    "course_description": "Cst Act 400 is an advanced course from the business school taken by final year accounting majors that covers the subject of business incurred costs and how to record them in financial statements"
+}
+
+
+PUT /courses/_doc/7
+{
+    "name": "Computer Internals 250",
+    "room": "C8",
+    "professor": {
+        "name": "Gregg Payne",
+        "department": "engineering",
+        "facutly_type": "part-time",
+        "email": "payneg@onuni.com"
+        },
+    "students_enrolled": 33,
+    "course_publish_date": "2012-08-20",
+    "course_description": "cpt Int 250 gives students an integrated and rigorous picture of applied computer science, as it comes to play in the construction of a simple yet powerful computer system. "
+}
+
+PUT /courses/_doc/8
+{
+    "name": "Accounting Info Systems 350",
+    "room": "E3",
+    "professor": {
+        "name": "Bill Cage",
+        "department": "accounting",
+        "facutly_type": "full-time",
+        "email": "cageb@onuni.com"
+        },
+    "students_enrolled": 19,
+    "course_publish_date": "2014-05-15",
+    "course_description": "Act Sys 350 is an advanced course providing students a practical understanding of an accounting system in database technology. Students will use MS Access to build a transaction ledger system"
+}
+
+PUT /courses/_doc/9
+{
+    "name": "Tax Accounting 200",
+    "room": "E7",
+    "professor": {
+        "name": "Thomas Baszo",
+        "department": "finance",
+        "facutly_type": "part-time",
+        "email": "baszot@onuni.com"
+        },
+    "students_enrolled": 17,
+    "course_publish_date": "2016-06-15",
+    "course_description": "Tax Act 200 is an intermediate course covering various aspects of tax law"
+}
+
+
+PUT /courses/_doc/10
+{
+    "name": "Capital Markets 350",
+    "room": "E3",
+    "professor": {
+        "name": "Thomas Baszo",
+        "department": "finance",
+        "facutly_type": "part-time",
+        "email": "baszot@onuni.com"
+        },
+    "students_enrolled": 13,
+    "course_publish_date": "2016-01-11",
+    "course_description": "This is an advanced course teaching crucial topics related to raising capital and bonds, shares and other long-term equity and debt financial instrucments"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
