@@ -288,7 +288,7 @@ PUT /course
   }
 }
 
-PUT /courses/_doc/1
+PUT /course/_doc/1
 {
     "name": "Accounting 101",
     "room": "E3",
@@ -304,7 +304,7 @@ PUT /courses/_doc/1
 }
 
 
-PUT /courses/_doc/2
+PUT /course/_doc/2
 {
     "name": "Marketing 101",
     "room": "E4",
@@ -320,7 +320,7 @@ PUT /courses/_doc/2
 }
 
 
-PUT /courses/_doc/3
+PUT /course/_doc/3
 {
     "name": "Anthropology 230",
     "room": "G11",
@@ -335,7 +335,7 @@ PUT /courses/_doc/3
     "course_description": "Ant 230 is an intermediate course on human societies and cultures and their development. A focus on the Mayans civilization is rooted in this course"
 }
 
-PUT /courses/_doc/4
+PUT /course/_doc/4
 {
     "name": "Computer Science 101",
     "room": "C12",
@@ -350,7 +350,7 @@ PUT /courses/_doc/4
     "course_description": "CS 101 is a first year computer science introduction teaching fundamental data structures and alogirthms using python. "
 }
 
-PUT /courses/_doc/5
+PUT /course/_doc/5
 {
     "name": "Theatre 410",
     "room": "T18",
@@ -365,7 +365,7 @@ PUT /courses/_doc/5
     "course_description": "Tht 410 is an advanced elective course disecting the various plays written by shakespere during the 16th century"
 }
 
-PUT /courses/_doc/6
+PUT /course/_doc/6
 {
     "name": "Cost Accounting 400",
     "room": "E7",
@@ -381,7 +381,7 @@ PUT /courses/_doc/6
 }
 
 
-PUT /courses/_doc/7
+PUT /course/_doc/7
 {
     "name": "Computer Internals 250",
     "room": "C8",
@@ -396,7 +396,7 @@ PUT /courses/_doc/7
     "course_description": "cpt Int 250 gives students an integrated and rigorous picture of applied computer science, as it comes to play in the construction of a simple yet powerful computer system. "
 }
 
-PUT /courses/_doc/8
+PUT /course/_doc/8
 {
     "name": "Accounting Info Systems 350",
     "room": "E3",
@@ -411,7 +411,7 @@ PUT /courses/_doc/8
     "course_description": "Act Sys 350 is an advanced course providing students a practical understanding of an accounting system in database technology. Students will use MS Access to build a transaction ledger system"
 }
 
-PUT /courses/_doc/9
+PUT /course/_doc/9
 {
     "name": "Tax Accounting 200",
     "room": "E7",
@@ -427,7 +427,7 @@ PUT /courses/_doc/9
 }
 
 
-PUT /courses/_doc/10
+PUT /course/_doc/10
 {
     "name": "Capital Markets 350",
     "room": "E3",
@@ -443,12 +443,54 @@ PUT /courses/_doc/10
 }
 
 
+GET /course/
 
 
 
+GET /course/_search
+{
+  "query": {
+    "match": {
+      "room": "E3"
+    }
+  }
+}
 
 
 
+GET /course/_search
+{
+  "query": {
+    "exists": {"field": "professor.name"}
+  }
+}
+
+
+
+GET /course/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "professor.email": "baszot@onuni.com"
+        }}
+      ],
+      "must_not": [
+        {"match": {
+          "professor.name": "Bill"
+        }}
+      ],
+  
+      "should": [
+        {"match": {
+          "name": "computer"
+        }}
+      ]
+      
+    }
+  }
+}
 
 
 
